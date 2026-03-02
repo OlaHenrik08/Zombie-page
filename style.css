@@ -1,0 +1,976 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Special+Elite&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+
+:root {
+  --blood: #8b1a1a;
+  --blood-bright: #c0392b;
+  --ash: #0f0f0d;
+  --smoke: #1e1e1b;
+  --bone: #d4c9a8;
+  --fog: rgba(200, 190, 160, 0.05);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--ash);
+  color: var(--bone);
+  font-family: 'Crimson Text', serif;
+  cursor: crosshair;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.5;
+}
+
+/* ── NAVBAR ── */
+nav {
+  position: fixed;
+  width: 100%;
+  padding: 18px 40px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.95), transparent);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(139,26,26,0.2);
+}
+
+.logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem;
+  letter-spacing: 6px;
+  color: var(--bone);
+  text-shadow: 0 0 30px rgba(139,26,26,0.6);
+  position: relative;
+  text-decoration: none;
+}
+
+.logo::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, var(--blood), transparent);
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 10px;
+}
+
+nav a {
+  text-decoration: none;
+  color: rgba(212, 201, 168, 0.7);
+  font-family: 'Special Elite', cursive;
+  font-size: 0.8rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  transition: color 0.3s, text-shadow 0.3s;
+  position: relative;
+}
+
+nav a:hover,
+nav a.active {
+  color: var(--bone);
+  text-shadow: 0 0 20px var(--blood-bright);
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 14px;
+  right: 14px;
+  height: 1px;
+  background: var(--blood);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+nav a:hover::after,
+nav a.active::after {
+  transform: scaleX(1);
+}
+
+/* ── HERO BASE ── */
+.hero {
+  height: 100vh;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  position: relative;
+  overflow: hidden;
+  background-color: #0f0f0d;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* HOME — uses the uploaded poster */
+.hero-home {
+  background-image: url("wallpapersden.com_the-walking-dead-4k-poster_2560x1080.jpg");
+}
+
+/* GROUP page hero — dark forest */
+.hero-group {
+  background-image:
+    linear-gradient(120deg, rgba(20,10,5,0.85) 0%, rgba(139,26,26,0.15) 100%),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(139,26,26,0.03) 2px,
+      rgba(139,26,26,0.03) 4px
+    );
+  background-color: #12100e;
+}
+
+/* WALKERS page hero — sickly green tint */
+.hero-walkers {
+  background-image:
+    linear-gradient(135deg, rgba(5,15,5,0.97) 0%, rgba(30,50,20,0.5) 100%),
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 3px,
+      rgba(40,80,20,0.04) 3px,
+      rgba(40,80,20,0.04) 6px
+    );
+  background-color: #0a0f08;
+}
+
+/* SAFE ZONE page hero — cold blue-grey */
+.hero-safezone {
+  background-image:
+    linear-gradient(160deg, rgba(5,10,20,0.97) 0%, rgba(20,30,50,0.6) 100%),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 4px,
+      rgba(50,80,120,0.03) 4px,
+      rgba(50,80,120,0.03) 5px
+    );
+  background-color: #080c12;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(0,0,0,0.9) 0%,
+    rgba(0,0,0,0.45) 55%,
+    rgba(0,0,0,0.1) 100%
+  );
+  z-index: 1;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(to top, var(--ash), transparent);
+  z-index: 2;
+}
+
+.overlay {
+  position: relative;
+  z-index: 3;
+  padding: 0 8% 10%;
+  max-width: 700px;
+}
+
+/* All hero children start invisible and slide up together cleanly */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(28px); }
+  to   { transform: translateY(0); }
+}
+
+.hero-eyebrow,
+.overlay h1,
+.overlay h2,
+.hero-desc,
+.btn-group {
+  opacity: 0;
+  animation: fadeIn 0.7s ease forwards, slideUp 0.7s ease forwards;
+  /* slideUp only runs once — element stays at translateY(0) after */
+}
+
+.hero-eyebrow { animation-delay: 0.15s; }
+.overlay h1   { animation-delay: 0.35s; }
+.overlay h2   { animation-delay: 0.55s; }
+.hero-desc    { animation-delay: 0.72s; }
+.btn-group    { animation-delay: 0.88s; }
+
+.hero-eyebrow {
+  font-family: 'Special Elite', cursive;
+  font-size: 0.75rem;
+  letter-spacing: 6px;
+  color: var(--blood-bright);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.overlay h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(4rem, 10vw, 9rem);
+  line-height: 0.9;
+  letter-spacing: 4px;
+  color: #fff;
+  text-shadow: 0 4px 40px rgba(0,0,0,0.8);
+}
+
+.overlay h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2rem, 5vw, 4.5rem);
+  letter-spacing: 6px;
+  color: var(--blood-bright);
+  text-shadow: 0 0 40px rgba(192,57,43,0.5);
+  margin-bottom: 30px;
+}
+
+.hero-desc {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: rgba(212,201,168,0.75);
+  max-width: 420px;
+  margin-bottom: 36px;
+  font-style: italic;
+}
+
+.btn-group {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+button, .btn-secondary {
+  padding: 14px 32px;
+  border: none;
+  font-family: 'Special Elite', cursive;
+  font-size: 0.8rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: crosshair;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+button {
+  background: var(--blood);
+  color: var(--bone);
+}
+
+button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--blood-bright);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+  z-index: -1;
+}
+
+button:hover::before { transform: scaleX(1); }
+button:hover { box-shadow: 0 0 30px rgba(192,57,43,0.4); }
+
+.btn-secondary {
+  background: transparent;
+  color: var(--bone);
+  border: 1px solid rgba(212,201,168,0.3);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-secondary:hover {
+  border-color: var(--bone);
+  box-shadow: inset 0 0 20px rgba(212,201,168,0.05);
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 40px;
+  right: 50px;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  animation: fadeUp 1s ease 1.4s both;
+}
+
+.scroll-hint span:last-child {
+  font-family: 'Special Elite', cursive;
+  font-size: 0.65rem;
+  letter-spacing: 4px;
+  color: rgba(212,201,168,0.4);
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+}
+
+.scroll-line {
+  display: block;
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(to bottom, var(--blood), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; }
+  50%       { opacity: 1; }
+}
+
+/* ── BLOOD DIVIDER ── */
+.blood-divider {
+  display: block;
+  text-align: center;
+  padding: 20px 0;
+  position: relative;
+}
+
+.blood-divider::before,
+.blood-divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 44%;
+  height: 1px;
+}
+
+.blood-divider::before {
+  left: 0;
+  background: linear-gradient(to right, transparent, rgba(139,26,26,0.5));
+}
+
+.blood-divider::after {
+  right: 0;
+  background: linear-gradient(to left, transparent, rgba(139,26,26,0.5));
+}
+
+.blood-divider span {
+  color: var(--blood);
+  font-size: 1rem;
+  font-family: 'Special Elite', cursive;
+}
+
+/* ── GROUP / HOME SECTION ── */
+.group {
+  padding: 120px 8%;
+  position: relative;
+}
+
+.group::before {
+  content: 'THE GROUP';
+  position: absolute;
+  top: 80px;
+  left: 8%;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 10rem;
+  color: rgba(255,255,255,0.018);
+  letter-spacing: 20px;
+  pointer-events: none;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 60px;
+}
+
+.section-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, var(--blood), transparent);
+}
+
+.section-line.right {
+  background: linear-gradient(to left, var(--blood), transparent);
+}
+
+.section-header h1,
+.section-header h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2rem, 5vw, 4rem);
+  letter-spacing: 8px;
+  color: var(--bone);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.group-subtitle,
+.section-subtitle {
+  text-align: center;
+  font-style: italic;
+  color: rgba(212,201,168,0.5);
+  font-size: 1.1rem;
+  margin-bottom: 60px;
+  letter-spacing: 1px;
+}
+
+/* ── CARDS ── */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+article.card {
+  background: var(--smoke);
+  padding: 36px 24px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s ease, background 0.3s;
+  border-top: 2px solid transparent;
+}
+
+article.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--fog), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+article.card:hover {
+  transform: translateY(-6px);
+  background: #242420;
+  border-top-color: var(--blood);
+}
+
+article.card:hover::before { opacity: 1; }
+
+article.card h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 3px;
+  color: var(--bone);
+  margin-bottom: 10px;
+}
+
+article.card p {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: rgba(212,201,168,0.55);
+  font-style: italic;
+}
+
+.card-number {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3rem;
+  color: rgba(255,255,255,0.04);
+  line-height: 1;
+}
+
+.card-tag {
+  display: inline-block;
+  font-family: 'Special Elite', cursive;
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--blood-bright);
+  border: 1px solid rgba(192,57,43,0.3);
+  padding: 3px 8px;
+  margin-bottom: 14px;
+}
+
+/* ── QUOTE SECTION ── */
+.quote-section {
+  padding: 80px 8%;
+  background: linear-gradient(to bottom, var(--ash), var(--smoke), var(--ash));
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.quote-section::before {
+  content: '"';
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 30rem;
+  color: rgba(139,26,26,0.035);
+  line-height: 1;
+  pointer-events: none;
+}
+
+blockquote {
+  font-family: 'Special Elite', cursive;
+  font-size: clamp(1.1rem, 2.5vw, 1.8rem);
+  line-height: 1.7;
+  color: var(--bone);
+  max-width: 700px;
+  margin: 0 auto 24px;
+  letter-spacing: 1px;
+  position: relative;
+  z-index: 1;
+}
+
+cite {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.85rem;
+  letter-spacing: 4px;
+  color: var(--blood-bright);
+  text-transform: uppercase;
+}
+
+/* ── WALKERS PAGE ── */
+.threat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+article.threat-card {
+  background: var(--smoke);
+  padding: 40px 30px;
+  position: relative;
+  border-left: 3px solid transparent;
+  transition: all 0.3s ease;
+}
+
+article.threat-card:hover {
+  border-left-color: var(--blood);
+  background: #181610;
+  transform: translateX(6px);
+}
+
+article.threat-card h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem;
+  letter-spacing: 4px;
+  color: var(--bone);
+  margin-bottom: 12px;
+}
+
+article.threat-card p {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: rgba(212,201,168,0.55);
+  font-style: italic;
+}
+
+.threat-level {
+  display: flex;
+  gap: 4px;
+  margin-top: 20px;
+}
+
+.threat-pip {
+  width: 20px;
+  height: 4px;
+  background: var(--smoke);
+  border: 1px solid rgba(139,26,26,0.3);
+  transition: background 0.3s;
+}
+
+.threat-pip.filled {
+  background: var(--blood);
+  border-color: var(--blood);
+}
+
+article.threat-card:hover .threat-pip.filled {
+  background: var(--blood-bright);
+}
+
+.threat-label {
+  font-family: 'Special Elite', cursive;
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  color: rgba(212,201,168,0.3);
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+
+/* ── SAFE ZONE PAGE ── */
+.rules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2px;
+  max-width: 1100px;
+  margin: 0 auto 80px;
+}
+
+article.rule-card {
+  background: var(--smoke);
+  padding: 40px 32px;
+  border-top: 2px solid transparent;
+  position: relative;
+  transition: all 0.35s ease;
+}
+
+article.rule-card:hover {
+  background: #141820;
+  border-top-color: #2a4a8a;
+  transform: translateY(-4px);
+}
+
+.rule-number {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 4rem;
+  color: rgba(50,80,140,0.15);
+  line-height: 1;
+  margin-bottom: 10px;
+}
+
+article.rule-card h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.5rem;
+  letter-spacing: 4px;
+  color: var(--bone);
+  margin-bottom: 12px;
+}
+
+article.rule-card p {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: rgba(212,201,168,0.55);
+  font-style: italic;
+}
+
+.status-bar {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 40px;
+  background: var(--smoke);
+  border: 1px solid rgba(50,80,140,0.2);
+  text-align: center;
+}
+
+.status-bar h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.2rem;
+  letter-spacing: 6px;
+  color: rgba(212,201,168,0.5);
+  margin-bottom: 30px;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  gap: 16px;
+}
+
+.stat-label {
+  font-family: 'Special Elite', cursive;
+  font-size: 0.75rem;
+  letter-spacing: 3px;
+  color: rgba(212,201,168,0.45);
+  text-transform: uppercase;
+  min-width: 100px;
+  text-align: left;
+}
+
+.stat-track {
+  flex: 1;
+  height: 4px;
+  background: rgba(255,255,255,0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-fill {
+  height: 100%;
+  background: linear-gradient(to right, #2a4a8a, #5580cc);
+  position: relative;
+  animation: fillBar 1.5s ease both;
+}
+
+@keyframes fillBar {
+  from { width: 0 !important; }
+}
+
+.stat-fill.danger { background: linear-gradient(to right, var(--blood), var(--blood-bright)); }
+.stat-fill.warn   { background: linear-gradient(to right, #7a5a10, #c09030); }
+.stat-fill.good   { background: linear-gradient(to right, #1a5a2a, #30a050); }
+
+.stat-value {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.1rem;
+  color: var(--bone);
+  min-width: 40px;
+  text-align: right;
+}
+
+/* ── IMAGES ── */
+
+/* Hero background image on non-home pages */
+.hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+  opacity: 0.35;
+  filter: grayscale(40%) contrast(1.1);
+}
+
+/* Full-width atmospheric divider image */
+.scene-img-wrap {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+}
+
+.scene-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: grayscale(30%) contrast(1.15);
+  display: block;
+}
+
+.scene-img-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, var(--ash) 0%, transparent 25%, transparent 75%, var(--ash) 100%);
+  z-index: 1;
+}
+
+.scene-img-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(139,26,26,0.07);
+  z-index: 1;
+}
+
+.scene-img-caption {
+  position: absolute;
+  bottom: 40px;
+  right: 8%;
+  z-index: 2;
+  text-align: right;
+}
+
+.scene-img-caption span {
+  font-family: 'Special Elite', cursive;
+  font-size: 0.65rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(212,201,168,0.3);
+}
+
+/* Image inside article.card */
+.card-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  margin-bottom: 20px;
+  filter: grayscale(30%) contrast(1.1);
+  transition: filter 0.4s ease;
+}
+
+article.card:hover .card-img {
+  filter: grayscale(0%);
+}
+
+/* Portrait in profile articles */
+.profile-portrait {
+  width: 100%;
+  max-width: 160px;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+  margin: 0 auto 12px;
+  filter: grayscale(50%) sepia(15%) contrast(1.1);
+  border-left: 3px solid var(--blood);
+  transition: filter 0.4s;
+}
+
+article.profile:hover .profile-portrait {
+  filter: grayscale(10%) contrast(1.15);
+}
+
+/* ── FULL-WIDTH MEMBER PROFILES (Group page) ── */
+section.profiles {
+  padding: 80px 8%;
+  background: var(--smoke);
+}
+
+article.profile {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: 40px;
+  align-items: start;
+  padding: 50px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  transition: all 0.3s;
+}
+
+article.profile:last-child { border-bottom: none; }
+article.profile:hover { background: transparent; }
+
+.profile-id {
+  text-align: center;
+}
+
+.profile-initial {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 6rem;
+  line-height: 1;
+  color: rgba(139,26,26,0.25);
+  display: block;
+  transition: color 0.3s;
+}
+
+article.profile:hover .profile-initial {
+  color: rgba(192,57,43,0.5);
+}
+
+.profile-codename {
+  font-family: 'Special Elite', cursive;
+  font-size: 0.65rem;
+  letter-spacing: 4px;
+  color: rgba(212,201,168,0.3);
+  text-transform: uppercase;
+}
+
+.profile-body h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.2rem;
+  letter-spacing: 5px;
+  color: var(--bone);
+  margin-bottom: 6px;
+}
+
+.profile-role {
+  font-family: 'Special Elite', cursive;
+  font-size: 0.75rem;
+  letter-spacing: 4px;
+  color: var(--blood-bright);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.profile-body p {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: rgba(212,201,168,0.65);
+  max-width: 600px;
+  margin-bottom: 20px;
+}
+
+.profile-stat {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.profile-stat-label {
+  font-family: 'Special Elite', cursive;
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  color: rgba(212,201,168,0.3);
+  text-transform: uppercase;
+}
+
+.profile-stat-val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.95rem;
+  color: var(--blood-bright);
+}
+
+/* ── FOOTER ── */
+footer {
+  padding: 50px 40px 40px;
+  background: #000;
+  border-top: 1px solid rgba(139,26,26,0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.2rem;
+  letter-spacing: 5px;
+  color: rgba(212,201,168,0.25);
+}
+
+footer p {
+  font-family: 'Special Elite', cursive;
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  color: rgba(212,201,168,0.2);
+  text-transform: uppercase;
+}
+
+.footer-rule {
+  display: block;
+  width: 60px;
+  height: 1px;
+  background: rgba(139,26,26,0.4);
+}
+
+/* ── INNER PAGE HERO (no poster) ── */
+.hero-inner .overlay {
+  padding-bottom: 12%;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  nav { padding: 16px 20px; }
+  nav ul { gap: 2px; }
+  nav a { padding: 6px 8px; font-size: 0.7rem; letter-spacing: 1px; }
+  .overlay { padding: 0 6% 14%; }
+  article.profile { grid-template-columns: 1fr; gap: 16px; }
+  .profile-id { display: none; }
+  footer { flex-direction: column; gap: 16px; text-align: center; }
+}
